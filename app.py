@@ -42,15 +42,15 @@ def register():
     is_active = request.form['is_active']
     picture = request.files['picture']
     
-    response = cloudinary.uploader.upload(picture, "avatars")
+    response = cloudinary.uploader.upload(picture, folder="avatars")
     
     if not response: jsonify({ "msg": "error al subir imagen " })
     
     user = User()
     user.username = username
     user.password = generate_password_hash(password)
-    user.is_active = is_active
-    user.avatar = response.secure_url
+    user.is_active = True if is_active == 'true' else False
+    user.avatar = response["secure_url"]
     user.save()
     
     return jsonify(user.serialize()), 201
