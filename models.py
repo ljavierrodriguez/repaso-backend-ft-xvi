@@ -9,6 +9,7 @@ class User(db.Model):
     password = db.Column(db.String(100), nullable=False)
     is_active = db.Column(db.Boolean(), default=True)
     avatar = db.Column(db.String(200), default="")
+    profile = db.relationship('Profile', uselist=False)
     
     def serialize(self):
         return {
@@ -28,3 +29,10 @@ class User(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
+        
+        
+class Profile(db.Model):
+    __tablename__ = 'profiles'
+    id = db.Column(db.Integer, primary_key=True)
+    resume = db.Column(db.String(200), default="")
+    users_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, unique=True)

@@ -4,7 +4,7 @@ from flask import Flask, jsonify, request
 from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
-from models import db, User
+from models import db, User, Profile
 from werkzeug.security import generate_password_hash, check_password_hash
 import cloudinary
 import cloudinary.uploader
@@ -17,9 +17,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 
 cloudinary.config(
-    cloud_name = "coursesdev", 
-    api_key = "829895951937775", 
-    api_secret = "2KfeVTcW2RjGrA3yA67nW8kXLrA",
+    cloud_name = "", 
+    api_key = "", 
+    api_secret = "",
     secure = True
 )
 
@@ -52,6 +52,10 @@ def register():
     user.password = generate_password_hash(password)
     user.is_active = True if is_active == 'true' else False
     user.avatar = response["secure_url"]
+    
+    profile = Profile()
+    user.profile = profile
+    
     user.save()
     
     return jsonify(user.serialize()), 201
