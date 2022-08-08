@@ -40,7 +40,7 @@ def register():
     username = request.form['username']
     password = request.form['password']
     is_active = request.form['is_active']
-    picture = request.form['picture']
+    picture = request.files['picture']
     
     response = cloudinary.uploader.upload(picture, "avatars")
     
