@@ -37,6 +37,7 @@ def login():
 
 @app.route('/api/register', methods=['POST'])
 def register():
+    
     username = request.form['username']
     password = request.form['password']
     is_active = request.form['is_active']
@@ -63,6 +64,12 @@ def get_profile():
 def update_profile():
     pass
 
+@app.route('/api/users', methods=['GET'])
+def list_users():
+    users = User.query.all()
+    users = list(map(lambda user: user.serialize(), users))
+    
+    return jsonify(users), 200
 
 if __name__ == '__main__':
     app.run()
