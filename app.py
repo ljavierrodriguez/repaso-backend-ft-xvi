@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from models import db, User
+from werkzeug.security import generate_password_hash, check_password_hash
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
